@@ -1,3 +1,9 @@
+import ru.common.manager.TaskManager;
+import ru.common.model.Epic;
+import ru.common.model.SubTask;
+import ru.common.model.Task;
+import ru.common.model.TaskStatus;
+
 public class Main {
 
     public static void main(String[] args) {

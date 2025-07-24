@@ -1,3 +1,5 @@
+package ru.common.model;
+
 public class SubTask extends Task {
     private int epicId;
 

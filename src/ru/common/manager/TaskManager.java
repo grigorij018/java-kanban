@@ -1,3 +1,10 @@
+package ru.common.manager;
+
+import ru.common.model.Epic;
+import ru.common.model.SubTask;
+import ru.common.model.Task;
+import ru.common.model.TaskStatus;
+
 import java.util.*;
 
 public class TaskManager {
