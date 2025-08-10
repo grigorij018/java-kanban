@@ -18,7 +18,6 @@ public class Task {
         this.description = description;
     }
 
-    // Геттеры и сеттеры
     public int getId() {
         return id;
     }
