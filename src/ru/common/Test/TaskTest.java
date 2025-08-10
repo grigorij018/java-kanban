@@ -1,4 +1,4 @@
-package ru.common;
+package ru.common.Test;
 
 import org.junit.jupiter.api.Test;
 import ru.common.manager.Managers;

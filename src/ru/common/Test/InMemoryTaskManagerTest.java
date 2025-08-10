@@ -1,7 +1,9 @@
-package ru.common.manager;
+package ru.common.Test;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.common.manager.Managers;
+import ru.common.manager.TaskManager;
 import ru.common.model.Epic;
 import ru.common.model.SubTask;
 import ru.common.model.Task;

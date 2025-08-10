@@ -49,7 +49,7 @@ public class Main {
 
         manager.deleteTask(task1.getId());
         manager.deleteEpic(epic1.getId());
-        
+
         System.out.println("\n--- Списки после удаления ---");
         System.out.println("Задачи: " + manager.getAllTasks());
         System.out.println("Эпики: " + manager.getAllEpics());

@@ -1,9 +1,8 @@
-package ru.common;
+package ru.common.Test;
 
 import org.junit.jupiter.api.Test;
 import ru.common.model.Epic;
 import ru.common.model.SubTask;
-import ru.common.model.TaskStatus;
 
 import static org.junit.jupiter.api.Assertions.*;
 
