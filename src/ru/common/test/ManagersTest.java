@@ -1,4 +1,4 @@
-package ru.common.Test;
+package ru.common.test;
 
 import org.junit.jupiter.api.Test;
 import ru.common.manager.HistoryManager;
