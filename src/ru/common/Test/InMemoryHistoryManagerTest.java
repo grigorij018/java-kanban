@@ -11,6 +11,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryHistoryManagerTest {
+
     @Test
     void shouldPreserveTaskDataInHistory() {
         HistoryManager historyManager = Managers.getDefaultHistory();
@@ -27,14 +28,42 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldStoreLast10TasksInHistory() {
+    void shouldNotDuplicateTasksInHistory() {
         HistoryManager historyManager = Managers.getDefaultHistory();
+        Task task = new Task("Task", "Description");
+        task.setId(1);
 
-        for (int i = 1; i <= 15; i++) {
-            Task task = new Task("Task " + i, "Description");
-            historyManager.add(task);
-        }
+        historyManager.add(task);
+        historyManager.add(task); // Дублирующее добавление
 
-        assertEquals(10, historyManager.getHistory().size(), "История должна содержать только 10 последних задач");
+        assertEquals(1, historyManager.getHistory().size(), "История не должна содержать дубликатов");
+    }
+
+    @Test
+    void shouldRemoveTaskFromHistory() {
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        Task task = new Task("Task", "Description");
+        task.setId(1);
+
+        historyManager.add(task);
+        historyManager.remove(1);
+
+        assertTrue(historyManager.getHistory().isEmpty(), "История должна быть пустой после удаления");
+    }
+
+    @Test
+    void shouldMaintainInsertionOrder() {
+        HistoryManager historyManager = Managers.getDefaultHistory();
+        Task task1 = new Task("Task1", "Description");
+        Task task2 = new Task("Task2", "Description");
+        task1.setId(1);
+        task2.setId(2);
+
+        historyManager.add(task1);
+        historyManager.add(task2);
+
+        List<Task> history = historyManager.getHistory();
+        assertEquals(1, history.get(0).getId());
+        assertEquals(2, history.get(1).getId());
     }
 }
