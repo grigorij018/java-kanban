@@ -70,24 +70,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private void addTaskToManager(Task task) {
         if (task instanceof Epic) {
-            epics.put(task.getId(), (Epic) task);
-            updateNextId(task.getId());
+            // Используем публичные методы вместо прямого доступа к полям
+            createEpic((Epic) task);
         } else if (task instanceof SubTask) {
-            subtasks.put(task.getId(), (SubTask) task);
-            Epic epic = epics.get(((SubTask) task).getEpicId());
-            if (epic != null) {
-                epic.addSubtaskId(task.getId());
-            }
-            updateNextId(task.getId());
+            createSubtask((SubTask) task);
         } else {
-            tasks.put(task.getId(), task);
-            updateNextId(task.getId());
-        }
-    }
-
-    private void updateNextId(int id) {
-        if (id >= nextId) {
-            nextId = id + 1;
+            createTask(task);
         }
     }
 
@@ -149,6 +137,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     // Переопределяем методы для автосохранения
+    // (остаются без изменений)
 
     @Override
     public Task createTask(Task task) {
@@ -226,12 +215,11 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     public static void main(String[] args) {
-        // Тестовый сценарий
+        // Тестовый сценарий (без изменений)
         try {
             File tempFile = File.createTempFile("tasks", ".csv");
             FileBackedTaskManager manager = new FileBackedTaskManager(tempFile);
 
-            // Создаем задачи
             Task task1 = new Task("Задача 1", "Описание задачи 1");
             Task task2 = new Task("Задача 2", "Описание задачи 2");
             manager.createTask(task1);
@@ -245,16 +233,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             manager.createSubtask(subTask1);
             manager.createSubtask(subTask2);
 
-            // Загружаем из файла
             FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
 
-            // Проверяем, что все задачи загрузились
             System.out.println("Задачи после загрузки:");
             System.out.println("Tasks: " + loadedManager.getAllTasks().size());
             System.out.println("Epics: " + loadedManager.getAllEpics().size());
             System.out.println("Subtasks: " + loadedManager.getAllSubtasks().size());
 
-            // Чистим временный файл
             tempFile.delete();
 
         } catch (IOException e) {
