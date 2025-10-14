@@ -1,5 +1,8 @@
 package ru.common.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class SubTask extends Task {
     private int epicId;
 
@@ -9,6 +12,11 @@ public class SubTask extends Task {
 
     public SubTask(String name, String description, int epicId) {
         super(name, description);
+        this.epicId = epicId;
+    }
+
+    public SubTask(String name, String description, int epicId, Duration duration, LocalDateTime startTime) {
+        super(name, description, duration, startTime);
         this.epicId = epicId;
     }
 

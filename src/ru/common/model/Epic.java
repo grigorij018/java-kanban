@@ -1,10 +1,13 @@
 package ru.common.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Epic extends Task {
     private final List<Integer> subtaskIds = new ArrayList<>();
+    private LocalDateTime endTime;
 
     public Epic() {
         super();
@@ -14,6 +17,14 @@ public class Epic extends Task {
         super(name, description);
     }
 
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 
     public List<Integer> getSubtaskIds() {
         return new ArrayList<>(subtaskIds);
@@ -34,12 +45,27 @@ public class Epic extends Task {
     }
 
     @Override
+    public Duration getDuration() {
+        // Расчетная логика будет в TaskManager
+        return super.getDuration();
+    }
+
+    @Override
+    public LocalDateTime getStartTime() {
+        // Расчетная логика будет в TaskManager
+        return super.getStartTime();
+    }
+
+    @Override
     public String toString() {
-        return "ru.common.model.Epic{" +
+        return "Epic{" +
                 "id=" + getId() +
                 ", name='" + getName() + '\'' +
                 ", description='" + getDescription() + '\'' +
                 ", status=" + getStatus() +
+                ", duration=" + (getDuration() != null ? getDuration().toMinutes() + "min" : "null") +
+                ", startTime=" + getStartTime() +
+                ", endTime=" + endTime +
                 ", subtaskIds=" + subtaskIds +
                 '}';
     }

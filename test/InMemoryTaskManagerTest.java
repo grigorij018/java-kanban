@@ -8,16 +8,38 @@ import ru.common.model.Epic;
 import ru.common.model.SubTask;
 import ru.common.model.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class InMemoryTaskManagerTest {
-    private TaskManager manager;
+class InMemoryTaskManagerTest extends test.TaskManagerTest<TaskManager> {
+
+    @Override
+    protected TaskManager createTaskManager() {
+        return Managers.getDefault();
+    }
 
     @BeforeEach
     void setUp() {
-        manager = Managers.getDefault();
+        manager = createTaskManager();
     }
 
+    // Специфичные тесты для InMemoryTaskManager
+    @Test
+    void shouldDetectTimeOverlap() {
+        LocalDateTime now = LocalDateTime.now();
+        Duration oneHour = Duration.ofHours(1);
+
+        Task task1 = new Task("Task1", "Desc", oneHour, now);
+        manager.createTask(task1);
+
+        Task task2 = new Task("Task2", "Desc", oneHour, now.plusMinutes(30)); // Пересекается
+
+        assertThrows(IllegalArgumentException.class, () -> manager.createTask(task2));
+    }
+
+    // Оригинальные тесты из вашего файла
     @Test
     void shouldAddAndFindDifferentTaskTypes() {
         Task task = new Task("Task", "Description");
