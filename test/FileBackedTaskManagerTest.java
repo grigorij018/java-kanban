@@ -1,6 +1,9 @@
+package test;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 import ru.common.manager.FileBackedTaskManager;
+import ru.common.manager.TaskManager;
 import ru.common.model.Epic;
 import ru.common.model.SubTask;
 import ru.common.model.Task;
@@ -13,10 +16,16 @@ import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTaskManagerTest {
+class FileBackedTaskManagerTest extends test.TaskManagerTest<TaskManager> {
 
     @TempDir
     Path tempDir;
+
+    @Override
+    protected TaskManager createTaskManager() {
+        File file = tempDir.resolve("test.csv").toFile();
+        return new FileBackedTaskManager(file);
+    }
 
     @Test
     void shouldSaveAndLoadEmptyFile() throws IOException {
