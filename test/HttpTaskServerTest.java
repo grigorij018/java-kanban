@@ -28,19 +28,30 @@ class HttpTaskServerTest {
     private HttpTaskServer server;
     private Gson gson;
     private HttpClient client;
+    private static int testCounter = 0;
 
     @BeforeEach
     void setUp() throws IOException {
         manager = new InMemoryTaskManager();
         server = new HttpTaskServer(manager);
-        server.start();
-        gson = HttpTaskServer.getGson();
+        gson = server.getGson(); // Используем гсон из сервера
         client = HttpClient.newHttpClient();
+
+        // Даем небольшую задержку между тестами
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+
+        server.start();
     }
 
     @AfterEach
     void tearDown() {
-        server.stop();
+        if (server != null) {
+            server.stop();
+        }
     }
 
     @Test
