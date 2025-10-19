@@ -1,4 +1,4 @@
-package ru.common.util;
+package ru.common.server;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
