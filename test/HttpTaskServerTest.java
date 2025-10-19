@@ -196,10 +196,14 @@ class HttpTaskServerTest {
 
     @Test
     void testGetPrioritized() throws IOException, InterruptedException {
+        // Используем разные временные интервалы чтобы избежать пересечений
+        LocalDateTime baseTime = LocalDateTime.now();
+
         Task task1 = new Task("Task 1", "Description",
-                Duration.ofHours(1), LocalDateTime.now().plusHours(1));
+                Duration.ofHours(1), baseTime.plusHours(2)); // Начинается через 2 часа
         Task task2 = new Task("Task 2", "Description",
-                Duration.ofHours(1), LocalDateTime.now());
+                Duration.ofHours(1), baseTime); // Начинается сейчас
+
         manager.createTask(task1);
         manager.createTask(task2);
 
@@ -211,6 +215,7 @@ class HttpTaskServerTest {
         Task[] prioritized = gson.fromJson(response.body(), Task[].class);
         assertEquals(2, prioritized.length);
         assertEquals("Task 2", prioritized[0].getName()); // Более ранняя задача должна быть первой
+        assertEquals("Task 1", prioritized[1].getName()); // Более поздняя задача должна быть второй
     }
 
     @Test
