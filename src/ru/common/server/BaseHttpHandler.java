@@ -3,17 +3,24 @@ package ru.common.server;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
 import ru.common.manager.ManagerSaveException;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
-public class BaseHttpHandler {
+public class BaseHttpHandler implements HttpHandler {
     protected final Gson gson;
 
     public BaseHttpHandler(Gson gson) {
         this.gson = gson;
+    }
+
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+        // Базовая реализация - должна быть переопределена в дочерних классах
+        sendNotFound(exchange);
     }
 
     protected void sendText(HttpExchange exchange, String text, int statusCode) throws IOException {
